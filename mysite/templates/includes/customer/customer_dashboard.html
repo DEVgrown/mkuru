@@ -1,0 +1,33 @@
+{% extends 'includes/customer/customerbase.html' %}
+{% load static %}
+
+{% block title %}Customer Home{% endblock %}
+
+{% block content %}
+<html>
+<body>
+    <h1>Welcome to Mkuru Clothline Shop</h1>
+
+    <!-- Carousel (Placeholder - you'll need a JavaScript/CSS library for a functional carousel) -->
+    <div id="imageCarousel" class="carousel">
+        <h2>Featured Clothes</h2>
+        <!-- Add your carousel images here -->
+        <img src="{% static 'images/shirt_shoe.jpg' %}" alt="Featured Clothing 1">
+        <img src="{% static 'images/placeholder_carousel2.jpg' %}" alt="Featured Clothing 2">
+        <img src="{% static 'images/placeholder_carousel3.jpg' %}" alt="Featured Clothing 3">
+    </div>
+
+    <h2>Our Products</h2>
+    <div class="product-grid">
+        {% for product in products %}
+        <div class="product-card">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            <h3>{{ product.name }}</h3>
+            <p class="price">${{ product.price }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,152 @@
+body {
+ background-color: #1F2D3D; /* Deep Navy Blue */
+    color: #FDF9F3; /* Off-White/Cream for contrast */
+    font-family: 'serif'; /* Classic feel */
+    margin: 0;
+    padding: 20px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+ color: #C0B283; /* Soft Gold/Champagne for headings */
+ text-shadow: none; /* Remove futuristic text shadow */
+}
+
+nav {
+    background-color: #1F2D3D; /* Deep Navy Blue */
+    padding: 10px;
+    margin-bottom: 20px; 
+    border-bottom: 2px solid #C0B283; /* Use Soft Gold/Champagne for border */
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav li {
+    margin: 0 15px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #FDF9F3; /* Use Off-White/Cream for link color */
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+nav a:hover {
+    color: #C0B283; /* Soft Gold/Champagne on hover */
+    text-shadow: none; /* Remove text shadow */
+}
+
+.container {
+    max-width: 960px;
+    margin: 20px auto; /* Add some margin above and below */
+    background-color: #16213e;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+button {
+    background-color: #C0B283; /* Soft Gold/Champagne for buttons */
+    color: #1F2D3D; /* Deep Navy Blue text on buttons */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #FDF9F3; /* Off-White/Cream on button hover */
+    color: #1F2D3D; /* Deep Navy Blue text on hover */
+}
+
+input[type="text"], input[type="email"], textarea {
+    background-color: #FDF9F3; /* Off-White/Cream background for inputs */
+    color: #1F2D3D; /* Deep Navy Blue text for inputs */
+    border: 1px solid #C0B283; /* Soft Gold/Champagne border */
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+input[type="text"]:focus, input[type="email"]:focus, textarea:focus {
+    outline: none; 
+    border-color: #1F2D3D; /* Deep Navy Blue border on focus */
+    box-shadow: 0 0 5px #e94560;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #C0B283; /* Soft Gold/Champagne border for table cells */
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #C0B283; /* Soft Gold/Champagne background for table headers */
+    color: #1F2D3D; /* Deep Navy Blue text for table headers */
+}
+
+tr:nth-child(even) {
+    background-color: rgba(192, 178, 131, 0.1); /* Semi-transparent Soft Gold/Champagne for even rows */
+}
+
+tr:hover {
+    background-color: rgba(192, 178, 131, 0.3); /* More transparent Soft Gold/Champagne on hover */
+}
+
+/* Add subtle animations for futuristic feel */
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.pulsing-element {
+    animation: pulse 2s infinite;
+}
+
+/* Example of a gradient background */ /* Keep for effect, but potentially adjust colors */
+.gradient-bg {
+    background: linear-gradient(to bottom, #1a1a2e, #0f3460);
+}
+
+/* Example of a glowing effect */ /* Keep for effect, but potentially adjust colors */
+.glowing-text {
+    text-shadow: 0 0 5px #e94560, 0 0 10px #e94560, 0 0 15px #e94560;
+}
+
+/* Example of a layered effect */
+.layered-box {
+    position: relative; /* Keep for effect, but potentially adjust colors */
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent base */
+    border: 1px solid rgba(233, 69, 96, 0.5); /* Border with some transparency */
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(233, 69, 96, 0.3); /* Glowing shadow */
+}
+
+.layered-box::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border: 1px solid rgba(192, 178, 131, 0.5); /* Inner layer border with Soft Gold/Champagne */
+    border-radius: 10px;
+    z-index: -1;
+}
+
