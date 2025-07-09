@@ -4,46 +4,48 @@ from django.contrib.auth.forms import AuthenticationForm
 from .forms import CustomUserCreationForm
 from django.urls import reverse
 from django.contrib import messages
+from mkuru.models import Customer, Order
+from django.contrib.auth.decorators import login_required
 
 def login_view(request):
     login_form = AuthenticationForm()
     register_form = CustomUserCreationForm()
 
     if request.method == 'POST':
-        # Determine which form was submitted (e.g., by checking for a specific field)
-        if 'login_submit' in request.POST: # Assuming a submit button named 'login_submit' in the login form
-            login_form = AuthenticationForm(request, data=request.POST)
-            if login_form.is_valid():
-                username = login_form.cleaned_data.get('username')
-                password = login_form.cleaned_data.get('password')
-                user = authenticate(request, username=username, password=password)
-                if user is not None:
-                    login(request, user)
-                    messages.info(request, f'You are now logged in as {username}.')
-                    # Redirect based on user role
-                    if user.role == 'admin':
-                        return redirect('admin_dashboard')
-                    elif user.role == 'cashier':
-                        return redirect('cashier_dashboard')
-                    elif user.role == 'customer':
-                        return redirect('customer_dashboard')
-                    else:
-                        return redirect(getattr(settings, 'LOGIN_REDIRECT_URL', '/'))
+        if 'login_submit' in request.POST:
+            # Custom logic to allow login with username or email
+            login_value = request.POST.get('login')
+            password = request.POST.get('password')
+            user = None
+            from django.contrib.auth import get_user_model
+            User = get_user_model()
+            if login_value:
+                # Try to authenticate by username
+                user_qs = User.objects.filter(username=login_value)
+                if user_qs.exists():
+                    user = authenticate(request, username=login_value, password=password)
                 else:
-                    messages.error(request, 'Invalid username or password.')
-        elif 'register_submit' in request.POST: # Assuming a submit button named 'register_submit' in the registration form
+                    # Try to authenticate by email
+                    try:
+                        user_obj = User.objects.get(email=login_value)
+                        user = authenticate(request, username=user_obj.username, password=password)
+                    except User.DoesNotExist:
+                        user = None
+            if user is not None:
+                login(request, user)
+                messages.info(request, f'You are now logged in as {user.username}.')
+                return redirect('customer_dashboard')
+            else:
+                messages.error(request, 'Invalid username/email or password.')
+        elif 'register_submit' in request.POST:
             register_form = CustomUserCreationForm(request.POST)
             if register_form.is_valid():
                 user = register_form.save()
-                # Optional: Log the user in after registration
-                # login(request, user)
                 messages.success(request, 'Registration successful. Please log in.')
-                # Redirect to the same page or a login success page
-                return redirect('login_register') # Redirect back to the same page to show the login form
+                return redirect('login')
             else:
                 messages.error(request, 'Registration failed. Please check your input.')
 
-    # Render the template with both forms
     return render(request, 'customer/login.html', {
         'login_form': login_form,
         'register_form': register_form,
@@ -64,7 +66,18 @@ def cashier_dashboard_view(request):
     # Add logic to check if the user is a Cashier and render cashier dashboard template
     return render(request, 'accounts/cashier_dashboard.html')
 
+@login_required
 def customer_dashboard_view(request):
-    # Add logic to check if the user is a Customer and render customer dashboard template
-    return render(request, 'accounts/customer_dashboard.html')
+    user = request.user
+    # Try to find a Customer record matching the logged-in user's email
+    customer = Customer.objects.filter(email=user.email).first()
+    orders = []
+    if customer:
+        orders = Order.objects.filter(customer=customer).order_by('-order_date')
+    context = {
+        'user': user,
+        'customer': customer,
+        'orders': orders,
+    }
+    return render(request, 'customer/customer_dashboard.html', context)
 
