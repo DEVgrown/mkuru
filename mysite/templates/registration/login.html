@@ -12,28 +12,51 @@
 <div class="container" id="container">
     <div class="form-container sign-up-container">
 		<br><br><br>
-        <form method="POST" id="login-form">
+        <form method="POST" action="{% url 'customerregister' %}">
             {% csrf_token %}
             <br><br>
             <h2>Create Account</h2>
-            <input type="text" name="username" placeholder="Username" required/>
-            <input type="text" name="first_name" placeholder="First Name" required/>
-            <input type="text" name="last_name" placeholder="Last Name" required/>
-            <input type="email" name="email" placeholder="Email" required/>
-            <input type="text" name="phone_number" placeholder="Phone Number"/>
-            <input type="text" name="address" placeholder="Address"/>
-            <input type="password" name="password1" placeholder="Password" required/>
-            <input type="password" name="password2" placeholder="Confirm Password" required/>
-            <select name="role" required>
-                <option value="customer">Customer</option>
-                <option value="cashier">Cashier</option>
-                <option value="admin">Admin</option>
-            </select>
-            <button type="submit" name="register_submit">Sign Up</button>
+            {% if user_form %}
+                {% for field in user_form %}
+                    <div class="form-group">
+                        {% if field.name == 'username' %}
+                            <input type="text" name="{{ field.name }}" placeholder="Username" value="{{ field.value|default:'' }}" />
+                        {% elif field.name == 'first_name' %}
+                            <input type="text" name="{{ field.name }}" placeholder="First Name" value="{{ field.value|default:'' }}" />
+                        {% elif field.name == 'last_name' %}
+                            <input type="text" name="{{ field.name }}" placeholder="Last Name" value="{{ field.value|default:'' }}" />
+                        {% elif field.name == 'password1' %}
+                            <input type="password" name="{{ field.name }}" placeholder="Password" />
+                        {% elif field.name == 'password2' %}
+                            <input type="password" name="{{ field.name }}" placeholder="Confirm Password" />
+                        {% endif %}
+                        {% if field.errors %}
+                            <div class="error">{{ field.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if customer_form %}
+                {% for field in customer_form %}
+                    <div class="form-group">
+                        {% if field.name == 'email' %}
+                            <input type="email" name="{{ field.name }}" placeholder="Email" value="{{ field.value|default:'' }}" />
+                        {% elif field.name == 'phone_number' %}
+                            <input type="text" name="{{ field.name }}" placeholder="Phone Number" value="{{ field.value|default:'' }}" />
+                        {% elif field.name == 'address' %}
+                            <textarea name="{{ field.name }}" placeholder="Address" rows="3">{{ field.value|default:'' }}</textarea>
+                        {% endif %}
+                        {% if field.errors %}
+                            <div class="error">{{ field.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <button type="submit">Sign Up</button>
         </form>
     </div>
     <div class="form-container sign-in-container">
-        <form method="POST" id="signin-form">
+        <form method="POST">
             {% csrf_token %}
             <h2>Sign in</h2>
             <div class="social-container">
@@ -42,10 +65,22 @@
                 <a href="#" class="social"><i class="fa fa-linkedin"></i></a>
             </div>
             <span>or use your account</span>
-            <input type="text" name="login" id="login" placeholder="Username or Email" required/>
-            <input type="password" name="password" id="password" placeholder="Password" required/>
+            {% if form %}
+                {% for field in form %}
+                    <div class="form-group">
+                        {% if field.name == 'username' %}
+                            <input type="text" name="{{ field.name }}" placeholder="Username" value="{{ field.value|default:'' }}" />
+                        {% elif field.name == 'password' %}
+                            <input type="password" name="{{ field.name }}" placeholder="Password" />
+                        {% endif %}
+                        {% if field.errors %}
+                            <div class="error">{{ field.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% endif %}
             <a href="#">Forgot your password?</a>
-            <button type="submit" name="login_submit">Sign In</button>
+            <button type="submit">Sign In</button>
         </form>
     </div>
     <div class="overlay-container">

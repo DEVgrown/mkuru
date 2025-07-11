@@ -81,12 +81,30 @@ form {
 	text-align: center;
 }
 
-input {
+input, textarea {
 	background-color: #eee;
 	border: none;
 	padding: 12px 15px;
 	margin: 8px 0;
 	width: 100%;
+	font-family: 'Montserrat', sans-serif;
+}
+
+textarea {
+	resize: vertical;
+	min-height: 60px;
+}
+
+.error {
+	color: #ff0000;
+	font-size: 12px;
+	margin-top: 5px;
+	text-align: left;
+}
+
+.form-group {
+	width: 100%;
+	margin-bottom: 10px;
 }
 
 .container {
